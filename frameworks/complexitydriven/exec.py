@@ -65,9 +65,7 @@ def run(dataset: Dataset, config: TaskConfig):
         model = LinearRegression
         parameter_grid = {'fit_intercept': [True, False], 'normalize': [True, False]}
 
-
-
-    fe = ComplexityDrivenFeatureConstructionScikit(max_time_secs=config.max_runtime_seconds, scoring=scoring_metric, model=model, parameter_grid=parameter_grid)
+    fe = ComplexityDrivenFeatureConstructionScikit(max_time_secs=config.max_runtime_seconds, scoring=scoring_metric, model=model, parameter_grid=parameter_grid, n_jobs=n_jobs, epsilon=-np.inf)
 
     with Timer() as training:
         fe.fit(dataset.train.X_enc, dataset.train.y_enc)
