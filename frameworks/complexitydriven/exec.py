@@ -20,6 +20,7 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import log_loss
+from sklearn.metrics import r2_score
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
@@ -48,7 +49,7 @@ def run(dataset: Dataset, config: TaskConfig):
         #mae='neg_mean_absolute_error',
         #mse='neg_mean_squared_error',
         #msle='neg_mean_squared_log_error',
-        #r2='r2'
+        r2=make_scorer(r2_score)
     )
     scoring_metric = metrics_mapping[config.metric] if config.metric in metrics_mapping else None
     if scoring_metric is None:
@@ -65,7 +66,13 @@ def run(dataset: Dataset, config: TaskConfig):
         model = LinearRegression
         parameter_grid = {'fit_intercept': [True, False], 'normalize': [True, False]}
 
-    fe = ComplexityDrivenFeatureConstructionScikit(max_time_secs=config.max_runtime_seconds, scoring=scoring_metric, model=model, parameter_grid=parameter_grid, n_jobs=n_jobs, epsilon=-np.inf)
+    is_categorical = [True if p.is_categorical() else False for p in dataset.predictors]
+    names = [p.name for p in dataset.predictors]
+
+    #fe = ComplexityDrivenFeatureConstructionScikit(max_time_secs=config.max_runtime_seconds, scoring=scoring_metric, model=model, parameter_grid=parameter_grid, n_jobs=n_jobs, epsilon=-np.inf)
+    fe = ComplexityDrivenFeatureConstructionScikit(max_time_secs=config.max_runtime_seconds, scoring=scoring_metric,
+                                                   model=model, parameter_grid=parameter_grid, n_jobs=n_jobs,
+                                                   epsilon=0.0, feature_names=names, feature_is_categorical=is_categorical)
 
     with Timer() as training:
         fe.fit(dataset.train.X_enc, dataset.train.y_enc)
@@ -86,6 +93,6 @@ def run(dataset: Dataset, config: TaskConfig):
                              target_is_encoded=is_classification)
 
     return dict(
-        models_count=1,
+        models_count=1, #todo
         training_duration=training.duration
     )
