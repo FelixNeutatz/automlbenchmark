@@ -64,9 +64,9 @@ def run(dataset: Dataset, config: TaskConfig):
     #parameter_grid = {'penalty': ['l2'], 'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'solver': ['lbfgs'], 'class_weight': ['balanced'], 'max_iter': [10000], 'multi_class':['auto']}
     #parameter_grid = {'penalty': ['l2'], 'solver': ['lbfgs'],'class_weight': ['balanced'], 'max_iter': [10000], 'multi_class': ['auto']}
 
-    from sklearn.svm import SVC
-    model = SVC
-    parameter_grid = {'C': [0.001, 0.01, 0.1, 1, 10], 'class_weight': ['balanced'], 'probability': [True], 'kernel': ['linear']}
+    from sklearn.ensemble import RandomForestClassifier
+    model = RandomForestClassifier
+    parameter_grid = {'max_depth': [2,3,4,5], 'class_weight': ['balanced'], 'n_estimators': [100]}
 
     '''
     from sklearn.neighbors import KNeighborsClassifier
