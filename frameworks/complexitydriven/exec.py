@@ -66,7 +66,7 @@ def run(dataset: Dataset, config: TaskConfig):
 
     from sklearn.ensemble import RandomForestClassifier
     model = RandomForestClassifier
-    parameter_grid = {'max_depth': [2,3,4,5], 'class_weight': ['balanced'], 'n_estimators': [100]}
+    parameter_grid = {'max_depth': [3, 4, 6, 10], 'class_weight': ['balanced'], 'n_estimators': [100, 200, 500], "criterion": ["gini", "entropy"], "min_samples_split": [2, 5, 20, 50]}
 
     '''
     from sklearn.neighbors import KNeighborsClassifier
