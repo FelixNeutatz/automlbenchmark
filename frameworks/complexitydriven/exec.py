@@ -60,10 +60,13 @@ def run(dataset: Dataset, config: TaskConfig):
     log.info('Running Complexity-Driven Feature Construction with a maximum time of %ss on %s cores, optimizing %s.',
              config.max_runtime_seconds, n_jobs, scoring_metric)
 
-    model = LogisticRegression
+    #model = LogisticRegression
     #parameter_grid = {'penalty': ['l2'], 'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'solver': ['lbfgs'], 'class_weight': ['balanced'], 'max_iter': [10000], 'multi_class':['auto']}
-    parameter_grid = {'penalty': ['l2'], 'solver': ['lbfgs'],
-                      'class_weight': ['balanced'], 'max_iter': [10000], 'multi_class': ['auto']}
+    #parameter_grid = {'penalty': ['l2'], 'solver': ['lbfgs'],'class_weight': ['balanced'], 'max_iter': [10000], 'multi_class': ['auto']}
+
+    from sklearn.svm import LinearSVC
+    model = LinearSVC
+    parameter_grid = {'C': [0.001, 0.01, 0.1, 1, 10], 'class_weight': ['balanced']}
 
     '''
     from sklearn.neighbors import KNeighborsClassifier
