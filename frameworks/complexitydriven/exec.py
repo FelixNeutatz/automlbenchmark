@@ -94,7 +94,7 @@ def run(dataset: Dataset, config: TaskConfig):
                                                    epsilon=0.0, feature_names=names, feature_is_categorical=is_categorical)
 
     with Timer() as training:
-        fe.fit(dataset.train.X, dataset.train.y)
+        fe.fit(dataset.train.X, dataset.train.y_enc)
 
     log.info('Predicting on the test set.')
     predictions = fe.predict(dataset.test.X)
