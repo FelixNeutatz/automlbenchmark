@@ -85,6 +85,7 @@ def run(dataset: Dataset, config: TaskConfig):
         parameter_grid = {'fit_intercept': [True, False], 'normalize': [True, False]}
 
     is_categorical = [True if p.is_categorical() else False for p in dataset.predictors]
+
     names = [p.name for p in dataset.predictors]
 
     #fe = ComplexityDrivenFeatureConstructionScikit(max_time_secs=config.max_runtime_seconds, scoring=scoring_metric, model=model, parameter_grid=parameter_grid, n_jobs=n_jobs, epsilon=-np.inf)
@@ -93,13 +94,13 @@ def run(dataset: Dataset, config: TaskConfig):
                                                    epsilon=0.0, feature_names=names, feature_is_categorical=is_categorical)
 
     with Timer() as training:
-        fe.fit(dataset.train.X_enc, dataset.train.y_enc)
+        fe.fit(dataset.train.X, dataset.train.y)
 
     log.info('Predicting on the test set.')
-    predictions = fe.predict(dataset.test.X_enc)
+    predictions = fe.predict(dataset.test.X)
     probabilities = None
     try:
-        probabilities = fe.predict_proba(dataset.test.X_enc) if is_classification else None
+        probabilities = fe.predict_proba(dataset.test.X) if is_classification else None
     except RuntimeError:
         pass
 
