@@ -43,7 +43,7 @@ def run(dataset: Dataset, config: TaskConfig):
     # Mapping of benchmark metrics to TPOT metrics
     metrics_mapping = dict(
         acc=make_scorer(accuracy_score),
-        auc=make_scorer(roc_auc_score),
+        auc=make_scorer(roc_auc_score, greater_is_better=True, needs_threshold=True),
         f1=make_scorer(f1_score),
         logloss=make_scorer(log_loss, greater_is_better=False, needs_proba=True),
         #mae='neg_mean_absolute_error',
