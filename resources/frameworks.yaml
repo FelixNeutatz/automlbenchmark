@@ -88,7 +88,8 @@ TPOT:
 complexitydriven:
   version: '0.0.1'
   project: https://github.com/BigDaMa/Complexity-Driven-Feature-Construction
-#  params:
-#    max_eval_time_mins: 2
-#    population_size: 25
-#    verbosity: 2
+
+rawfeatures:
+  version: '0.0.1'
+  project: https://github.com/BigDaMa/Complexity-Driven-Feature-Construction
+
